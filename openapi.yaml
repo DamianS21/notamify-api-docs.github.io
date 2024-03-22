@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  title: NOTAM API
+  version: 1.0.0
+  description: API for fetching NOTAMs and generating briefings
+
+servers:
+  - url: http://api.example.com
+
+paths:
+  /api/get-notams:
+    get:
+      summary: Fetch NOTAMs
+      description: Fetches NOTAMs for the given locations and date range
+      parameters:
+        - name: locations
+          in: query
+          required: true
+          description: Comma-separated list of ICAO codes
+          schema:
+            type: array
+            items:
+              type: string
+        - name: start_date
+          in: query
+          description: Start date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: End date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: dry_run
+          in: query
+          description: Flag to perform a dry run without fetching NOTAMs
+          schema:
+            type: boolean
+            default: false
+        - name: X-API-Key
+          in: header
+          required: true
+          description: Signed API key for authentication
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NOTAM'
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized - Missing or invalid API key. Make sure the API key is Signed
+        '404':
+          description: NOTAMs not found
+        '429':
+          description: Too many requests
+
+
+  /api/get-briefing:
+    get:
+      summary: Generate a briefing
+      description: Generates a briefing for the given locations, date range, and role
+      parameters:
+        - name: locations
+          in: query
+          required: true
+          description: Comma-separated list of ICAO codes
+          schema:
+            type: array
+            items:
+              type: string
+        - name: start_date
+          in: query
+          description: Start date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: End date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: role
+          in: query
+          description: Role for which the briefing is generated
+          schema:
+            type: string
+            default: flight dispatcher
+        - name: dry_run
+          in: query
+          description: Flag to perform a dry run without generating the briefing
+          schema:
+            type: boolean
+            default: false
+        - name: X-API-Key
+          in: header
+          required: true
+          description: Signed API key for authentication
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Briefing'
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized - Missing or invalid API key. Make sure the key is Signed
+        '404':
+          description: NOTAMs not found
+        '429':
+          description: Too many requests
+
+components:
+  schemas:
+    NOTAM:
+      type: object
+      properties:
+        notam_id:
+          type: integer
+        notam_content:
+          type: string
+        interpretations:
+          type: object
+
+    Briefing:
+      type: object
+      properties:
+        summary:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
