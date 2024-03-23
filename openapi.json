@@ -3,7 +3,7 @@
   "info": {
     "title": "NOTAM API",
     "version": "1.0.0",
-    "description": "API for fetching NOTAMs and generating briefings"
+    "description": "API for fetching NOTAMs (with AI interpretation) and generating briefings"
   },
   "servers": [
     {
@@ -13,7 +13,7 @@
   "paths": {
     "/api/get-notams": {
       "get": {
-        "summary": "Fetch NOTAMs",
+        "summary": "Fetch NOTAMs with AI interpretation",
         "description": "Fetches NOTAMs for the given locations and date range",
         "parameters": [
           {
@@ -209,12 +209,6 @@
         }
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
     }
   }
 }
