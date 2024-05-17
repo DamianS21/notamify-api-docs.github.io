@@ -148,6 +148,24 @@
             }
           },
           {
+            "name": "always_include_est",
+            "in": "query",
+            "description": "Flag to always include estimated NOTAMs into the briefing",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "detailed_briefing",
+            "in": "query",
+            "description": "Flag to generated detailed briefing. The flag set to 'false' generate shorter briefings",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
             "name": "X-API-Key",
             "in": "header",
             "required": true,
