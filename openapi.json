@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "httpss://api.notamify.com"
+      "url": "https://api.notamify.com"
     }
   ],
   "paths": {
