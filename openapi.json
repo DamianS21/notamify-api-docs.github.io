@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "NOTAM API",
+    "title": "Notamify API",
     "version": "1.0.0",
     "description": "API for fetching NOTAMs (with AI interpretation) and generating briefings"
   },
@@ -91,7 +91,13 @@
           "429": {
             "description": "Too many requests"
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "source": "import requests\n\nurl = 'http://api.notamify.com/api/get-notams'\nheaders = {\n    'X-API-Key': 'YOUR_API_KEY'\n}\nparams = {\n    'locations': 'ICAO1,ICAO2',\n    'start_date': '2023-01-01',\n    'end_date': '2023-01-02',\n    'dry_run': 'false'\n}\n\nresponse = requests.get(url, headers=headers, params=params)\n\nif response.status_code == 200:\n    notams = response.json()\n    print(notams)\nelse:\n    print(f'Error: {response.status_code} - {response.text}')"
+          }
+        ]
       }
     },
     "/api/get-briefing": {
@@ -198,7 +204,13 @@
           "429": {
             "description": "Too many requests"
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "source": "import requests\n\nurl = 'http://api.notamify.com/api/get-briefing'\nheaders = {\n    'X-API-Key': 'YOUR_API_KEY'\n}\nparams = {\n    'locations': 'ICAO1,ICAO2',\n    'start_date': '2023-01-01',\n    'end_date': '2023-01-02',\n    'role': 'flight dispatcher',\n    'dry_run': 'false',\n    'always_include_est': 'true',\n    'detailed_briefing': 'true'\n}\n\nresponse = requests.get(url, headers=headers, params=params)\n\nif response.status_code == 200:\n    briefing = response.json()\n    print(briefing)\nelse:\n    print(f'Error: {response.status_code} - {response.text}')"
+          }
+        ]
       }
     }
   },
