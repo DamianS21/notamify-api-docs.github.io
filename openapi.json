@@ -1,352 +1,154 @@
-{
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Notamify API",
-    "version": "1.0.0",
-    "description": "API for fetching NOTAMs (with AI interpretation) and generating briefings"
-  },
-  "servers": [
-    {
-      "url": "https://api.notamify.com"
-    }
-  ],
-  "paths": {
-    "/api/get-notams": {
-      "get": {
-        "summary": "Fetch NOTAMs with AI interpretation",
-        "description": "Fetches NOTAMs for the given locations and date range",
-        "parameters": [
-          {
-            "name": "locations",
-            "in": "query",
-            "required": true,
-            "description": "Comma-separated list of ICAO codes",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "start_date",
-            "in": "query",
-            "description": "Start date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "end_date",
-            "in": "query",
-            "description": "End date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "dry_run",
-            "in": "query",
-            "description": "Flag to perform a dry run without fetching NOTAMs",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": true,
-            "description": "Signed API key for authentication",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NOTAM"
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "summary": "A NOTAM example",
-                    "value": [
-                      {
-                        "EST": false,
-                        "PERM": false,
-                        "ai_ac_type": "VFR",
-                        "ai_category": "Airspace management",
-                        "ai_interpretation": "Due to reduced system capacity, all VFR aircraft destined for CYVR, excluding CAM9 and helicopter traffic, are required to contact YVR ACC (1-800-668-1333) between 30-90 minutes prior to departure for an approved arrival time.",
-                        "ai_interpretation_role": "Pilot, Flight Dispatcher",
-                        "ai_short_interpretation": "VFR aircraft destined for CYVR need to contact YVR ACC 30-90 minutes before departure for an approved arrival time.",
-                        "all": "C1754/24 NOTAMR C1746/24\nQ) CZVR/QFAXX/V/NBO/A/000/999/4912N12311W005\nA) CYVR B) 2405172100 C) 2405180300\nE) DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-                        "enddate": "2024-05-18T03:00:00",
-                        "icao": "CYVR",
-                        "key": "CYVR_C1754/24",
-                        "location": "CYVR",
-                        "message": "DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-                        "notam_id": 2739004787,
-                        "processed_at": "2024-05-17T13:49:48.202861",
-                        "raw_id": "C1754/24",
-                        "startdate": "2024-05-17T21:00:00"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Missing or invalid API key. Check if the key is signed."
-          },
-          "404": {
-            "description": "NOTAMs not found"
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "x-codeSamples": [
-          {
-            "lang": "Python",
-            "label": "Python",
-            "source": "import requests\n\nurl = 'https://api.notamify.com/api/get-notams'\nheaders = {\n    'X-API-Key': 'YOUR_API_KEY'\n}\nparams = {\n    'locations': 'ICAO1,ICAO2',\n    'start_date': '2023-01-01',\n    'end_date': '2023-01-02',\n    'dry_run': 'false'\n}\n\nresponse = requests.get(url, headers=headers, params=params)\n\nif response.status_code == 200:\n    notams = response.json()\n    print(notams)\nelse:\n    print(f'Error: {response.status_code} - {response.text}')"
-          }
-        ]
-      }
-    },
-    "/api/get-briefing": {
-      "get": {
-        "summary": "Generate a briefing",
-        "description": "Generates a briefing for the given locations, date range, and role",
-        "parameters": [
-          {
-            "name": "locations",
-            "in": "query",
-            "required": true,
-            "description": "Comma-separated list of ICAO codes",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "start_date",
-            "in": "query",
-            "description": "Start date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "end_date",
-            "in": "query",
-            "description": "End date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "role",
-            "in": "query",
-            "description": "Role for which the briefing is generated",
-            "schema": {
-              "type": "string",
-              "default": "flight dispatcher"
-            }
-          },
-          {
-            "name": "dry_run",
-            "in": "query",
-            "description": "Flag to perform a dry run without generating the briefing",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }
-          },
-          {
-            "name": "always_include_est",
-            "in": "query",
-            "description": "Flag to always include estimated NOTAMs into the briefing",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          },
-          {
-            "name": "detailed_briefing",
-            "in": "query",
-            "description": "Flag to generated detailed briefing. The flag set to 'false' generate shorter briefings",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": true,
-            "description": "Signed API key for authentication",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Briefing"
-                },
-                "examples": {
-                  "example-1": {
-                    "summary": "A briefing example",
-                    "value": {
-                      "summary": "Briefing summary for the given locations and date range"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request parameters"
-          },
-          "401": {
-            "description": "Unauthorized - Missing or invalid API key. Check if the key is signed."
-          },
-          "404": {
-            "description": "NOTAMs not found"
-          },
-          "429": {
-            "description": "Too many requests"
-          }
-        },
-        "x-codeSamples": [
-          {
-            "lang": "Python",
-            "label": "Python",
-            "source": "import requests\n\nurl = 'https://api.notamify.com/api/get-briefing'\nheaders = {\n    'X-API-Key': 'YOUR_API_KEY'\n}\nparams = {\n    'locations': 'ICAO1,ICAO2',\n    'start_date': '2023-01-01',\n    'end_date': '2023-01-02',\n    'role': 'flight dispatcher',\n    'dry_run': 'false',\n    'always_include_est': 'true',\n    'detailed_briefing': 'true'\n}\n\nresponse = requests.get(url, headers=headers, params=params)\n\nif response.status_code == 200:\n    briefing = response.json()\n    print(briefing)\nelse:\n    print(f'Error: {response.status_code} - {response.text}')"
-          }
-        ]
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "NOTAM": {
-        "type": "object",
-        "properties": {
-          "notam_id": {
-            "type": "integer"
-          },
-          "notam_content": {
-            "type": "string"
-          },
-          "interpretations": {
-            "type": "object"
-          },
-          "EST": {
-            "type": "boolean"
-          },
-          "PERM": {
-            "type": "boolean"
-          },
-          "ai_ac_type": {
-            "type": "string"
-          },
-          "ai_category": {
-            "type": "string"
-          },
-          "ai_interpretation": {
-            "type": "string"
-          },
-          "ai_interpretation_role": {
-            "type": "string"
-          },
-          "ai_short_interpretation": {
-            "type": "string"
-          },
-          "all": {
-            "type": "string"
-          },
-          "enddate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "icao": {
-            "type": "string"
-          },
-          "key": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "processed_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "raw_id": {
-            "type": "string"
-          },
-          "startdate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "example": {
-          "EST": false,
-          "PERM": false,
-          "ai_ac_type": "VFR",
-          "ai_category": "Airspace management",
-          "ai_interpretation": "Due to reduced system capacity, all VFR aircraft destined for CYVR, excluding CAM9 and helicopter traffic, are required to contact YVR ACC (1-800-668-1333) between 30-90 minutes prior to departure for an approved arrival time.",
-          "ai_interpretation_role": "Pilot, Flight Dispatcher",
-          "ai_short_interpretation": "VFR aircraft destined for CYVR need to contact YVR ACC 30-90 minutes before departure for an approved arrival time.",
-          "all": "C1754/24 NOTAMR C1746/24\nQ) CZVR/QFAXX/V/NBO/A/000/999/4912N12311W005\nA) CYVR B) 2405172100 C) 2405180300\nE) DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-          "enddate": "2024-05-18T03:00:00",
-          "icao": "CYVR",
-          "key": "CYVR_C1754/24",
-          "location": "CYVR",
-          "message": "DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-          "notam_id": 2739004787,
-          "processed_at": "2024-05-17T13:49:48.202861",
-          "raw_id": "C1754/24",
-          "startdate": "2024-05-17T21:00:00"
-        }
-      },
-      "Briefing": {
-        "type": "object",
-        "properties": {
-          "summary": {
-            "type": "string"
-          }
-        },
-        "example": {
-          "summary": "Briefing summary for the given locations and date range"
-        }
-      }
-    }
-  }
-}
+openapi: 3.0.0
+info:
+  title: NOTAM API
+  version: 1.0.0
+  description: API for fetching NOTAMs and generating briefings
+
+servers:
+  - url: http://api.example.com
+
+paths:
+  /api/get-notams:
+    get:
+      summary: Fetch NOTAMs
+      description: Fetches NOTAMs for the given locations and date range
+      parameters:
+        - name: locations
+          in: query
+          required: true
+          description: Comma-separated list of ICAO codes
+          schema:
+            type: array
+            items:
+              type: string
+        - name: start_date
+          in: query
+          description: Start date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: End date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: dry_run
+          in: query
+          description: Flag to perform a dry run without fetching NOTAMs
+          schema:
+            type: boolean
+            default: false
+        - name: X-API-Key
+          in: header
+          required: true
+          description: API key for authentication
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NOTAM'
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized - Missing or invalid API key
+        '404':
+          description: NOTAMs not found
+        '429':
+          description: Too many requests
+
+
+  /api/get-briefing:
+    get:
+      summary: Generate a briefing
+      description: Generates a briefing for the given locations, date range, and role
+      parameters:
+        - name: locations
+          in: query
+          required: true
+          description: Comma-separated list of ICAO codes
+          schema:
+            type: array
+            items:
+              type: string
+        - name: start_date
+          in: query
+          description: Start date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: End date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: role
+          in: query
+          description: Role for which the briefing is generated
+          schema:
+            type: string
+            default: flight dispatcher
+        - name: dry_run
+          in: query
+          description: Flag to perform a dry run without generating the briefing
+          schema:
+            type: boolean
+            default: false
+        - name: detailed_briefing
+          in: query
+          description: Flag to perform a detailed briefing. false returns concile, less detailed briefing.
+          schema:
+            type: boolean
+            default: true
+        - name: X-API-Key
+          in: header
+          required: true
+          description: API key for authentication
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Briefing'
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized - Missing or invalid API key
+        '404':
+          description: NOTAMs not found
+        '429':
+          description: Too many requests
+
+components:
+  schemas:
+    NOTAM:
+      type: object
+      properties:
+        notam_id:
+          type: integer
+        notam_content:
+          type: string
+        interpretations:
+          type: object
+
+    Briefing:
+      type: object
+      properties:
+        summary:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
