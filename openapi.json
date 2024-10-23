@@ -207,7 +207,7 @@
             "schema": {
               "type": "boolean",
               "default": true
-            },
+            }},
             {
             "name": "stream",
             "in": "query",
@@ -215,7 +215,7 @@
             "schema": {
               "type": "boolean",
               "default": false
-            },
+            }},
             {
             "name": "markdown",
             "in": "query",
@@ -223,7 +223,7 @@
             "schema": {
               "type": "boolean",
               "default": true
-            },
+            }},
           },
           {
             "name": "X-API-Key",
