@@ -92,21 +92,23 @@
                       {
                         "EST": false,
                         "PERM": false,
-                        "ai_ac_type": "VFR",
-                        "ai_category": "Airspace management",
-                        "ai_interpretation": "Due to reduced system capacity, all VFR aircraft destined for CYVR, excluding CAM9 and helicopter traffic, are required to contact YVR ACC (1-800-668-1333) between 30-90 minutes prior to departure for an approved arrival time.",
-                        "ai_interpretation_role": "Pilot, Flight Dispatcher",
-                        "ai_short_interpretation": "VFR aircraft destined for CYVR need to contact YVR ACC 30-90 minutes before departure for an approved arrival time.",
-                        "all": "C1754/24 NOTAMR C1746/24\nQ) CZVR/QFAXX/V/NBO/A/000/999/4912N12311W005\nA) CYVR B) 2405172100 C) 2405180300\nE) DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-                        "enddate": "2024-05-18T03:00:00",
-                        "icao": "CYVR",
-                        "key": "CYVR_C1754/24",
-                        "location": "CYVR",
-                        "message": "DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-                        "notam_id": 2739004787,
-                        "processed_at": "2024-05-17T13:49:48.202861",
-                        "raw_id": "C1754/24",
-                        "startdate": "2024-05-17T21:00:00"
+                        "ai_ac_type": "",
+                        "ai_category": "Airport maintenance",
+                        "ai_interpretation": "Taxiway N6 is closed daily from 2030 to 0500.",
+                        "ai_interpretation_role": "Pilot",
+                        "ai_short_interpretation": "Taxiway N6 closed.",
+                        "ai_timing": "Daily from 2030 to 0500.",
+                        "all": "A5496/24 NOTAMN\nQ) EDGG/QMXLC/IV/BO /A /000/999/5002N00834E005\nA) EDDF B) 2410212030 C) 2410260500\nD) DAILY 2030-0500\nE) TWY N6 CLSD.",
+                        "enddate": "2024-10-26T05:00:00",
+                        "icao": "EDDF",
+                        "key": "EDDF_A5496/24",
+                        "location": "EDDF",
+                        "message": "TWY N6 CLSD.",
+                        "notam_id": "7OA91QL5FIbRACJ61QxPhl",
+                        "processed_at": "2024-10-23T17:46:46.219691",
+                        "raw_id": "A5496/24",
+                        "startdate": "2024-10-21T20:30:00",
+                        "timing_info": "DAILY 2030-0500"
                       }
                     ]
                   }
@@ -205,7 +207,23 @@
             "schema": {
               "type": "boolean",
               "default": true
-            }
+            },
+            {
+            "name": "stream",
+            "in": "query",
+            "description": "Flag to return streaming response.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            {
+            "name": "markdown",
+            "in": "query",
+            "description": "Flag to return briefing in markdown. If false, then returns plain text.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
           },
           {
             "name": "X-API-Key",
@@ -265,7 +283,7 @@
         "type": "object",
         "properties": {
           "notam_id": {
-            "type": "integer"
+            "type": "string"
           },
           "notam_content": {
             "type": "string"
@@ -293,6 +311,10 @@
           },
           "ai_short_interpretation": {
             "type": "string"
+          },
+          "ai_timing": {
+            "type": "string",
+            "nullable": true
           },
           "all": {
             "type": "string"
@@ -323,26 +345,32 @@
           "startdate": {
             "type": "string",
             "format": "date-time"
+          },
+          "timing_info": {
+            "type": "string",
+            "nullable": true
           }
         },
         "example": {
           "EST": false,
           "PERM": false,
-          "ai_ac_type": "VFR",
-          "ai_category": "Airspace management",
-          "ai_interpretation": "Due to reduced system capacity, all VFR aircraft destined for CYVR, excluding CAM9 and helicopter traffic, are required to contact YVR ACC (1-800-668-1333) between 30-90 minutes prior to departure for an approved arrival time.",
-          "ai_interpretation_role": "Pilot, Flight Dispatcher",
-          "ai_short_interpretation": "VFR aircraft destined for CYVR need to contact YVR ACC 30-90 minutes before departure for an approved arrival time.",
-          "all": "C1754/24 NOTAMR C1746/24\nQ) CZVR/QFAXX/V/NBO/A/000/999/4912N12311W005\nA) CYVR B) 2405172100 C) 2405180300\nE) DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-          "enddate": "2024-05-18T03:00:00",
-          "icao": "CYVR",
-          "key": "CYVR_C1754/24",
-          "location": "CYVR",
-          "message": "DUE TO REDUCED SYSTEM CAPACITY ALL VFR ACFT DESTINED FOR CYVR \nEXCLUDING CAM9 AND HEL TFC, ARE REQUIRED TO CTC YVR ACC \n(1-800-668-1333) BTN 30-90MIN PRIOR TO DEP FOR AN APPROVED ARR \nTIME",
-          "notam_id": 2739004787,
-          "processed_at": "2024-05-17T13:49:48.202861",
-          "raw_id": "C1754/24",
-          "startdate": "2024-05-17T21:00:00"
+          "ai_ac_type": "",
+          "ai_category": "Airport maintenance",
+          "ai_interpretation": "Taxiway N6 is closed daily from 2030 to 0500.",
+          "ai_interpretation_role": "Pilot",
+          "ai_short_interpretation": "Taxiway N6 closed.",
+          "ai_timing": "Daily from 2030 to 0500.",
+          "all": "A5496/24 NOTAMN\nQ) EDGG/QMXLC/IV/BO /A /000/999/5002N00834E005\nA) EDDF B) 2410212030 C) 2410260500\nD) DAILY 2030-0500\nE) TWY N6 CLSD.",
+          "enddate": "2024-10-26T05:00:00",
+          "icao": "EDDF",
+          "key": "EDDF_A5496/24",
+          "location": "EDDF",
+          "message": "TWY N6 CLSD.",
+          "notam_id": "7OA91QL5FIbRACJ61QxPhl",
+          "processed_at": "2024-10-23T17:46:46.219691",
+          "raw_id": "A5496/24",
+          "startdate": "2024-10-21T20:30:00",
+          "timing_info": "DAILY 2030-0500"
         }
       },
       "Briefing": {
