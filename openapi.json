@@ -142,99 +142,101 @@
       "get": {
         "summary": "Generate a briefing",
         "description": "Generates a briefing for the given locations, date range, and role",
-        "parameters": [
-          {
-            "name": "locations",
-            "in": "query",
-            "required": true,
-            "description": "Comma-separated list of ICAO codes. Up to 10 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
-            "schema": {
-              "type": "array",
-              "items": {
+          "parameters": [
+            {
+              "name": "locations",
+              "in": "query",
+              "required": true,
+              "description": "Comma-separated list of ICAO codes. Up to 10 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "start_date",
+              "in": "query",
+              "description": "Start date (YYYY-MM-DD)",
+              "schema": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            {
+              "name": "end_date",
+              "in": "query",
+              "description": "End date (YYYY-MM-DD)",
+              "schema": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            {
+              "name": "role",
+              "in": "query",
+              "description": "Role for which the briefing is generated",
+              "schema": {
+                "type": "string",
+                "default": "flight dispatcher"
+              }
+            },
+            {
+              "name": "dry_run",
+              "in": "query",
+              "description": "Flag to perform a dry run without generating the briefing",
+              "schema": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            {
+              "name": "always_include_est",
+              "in": "query",
+              "description": "Flag to always include estimated NOTAMs into the briefing",
+              "schema": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            {
+              "name": "detailed_briefing",
+              "in": "query",
+              "description": "Flag to generated detailed briefing. The flag set to 'false' generate shorter briefings",
+              "schema": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            {
+              "name": "stream",
+              "in": "query",
+              "description": "Flag to return streaming response.",
+              "schema": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            {
+              "name": "markdown",
+              "in": "query",
+              "description": "Flag to return briefing in markdown. If false, then returns plain text.",
+              "schema": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            {
+              "name": "X-API-Key",
+              "in": "header",
+              "required": true,
+              "description": "Signed API key for authentication",
+              "schema": {
                 "type": "string"
               }
             }
-          },
-          {
-            "name": "start_date",
-            "in": "query",
-            "description": "Start date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "end_date",
-            "in": "query",
-            "description": "End date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "role",
-            "in": "query",
-            "description": "Role for which the briefing is generated",
-            "schema": {
-              "type": "string",
-              "default": "flight dispatcher"
-            }
-          },
-          {
-            "name": "dry_run",
-            "in": "query",
-            "description": "Flag to perform a dry run without generating the briefing",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }
-          },
-          {
-            "name": "always_include_est",
-            "in": "query",
-            "description": "Flag to always include estimated NOTAMs into the briefing",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          },
-          {
-            "name": "detailed_briefing",
-            "in": "query",
-            "description": "Flag to generated detailed briefing. The flag set to 'false' generate shorter briefings",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }},
-            {
-            "name": "stream",
-            "in": "query",
-            "description": "Flag to return streaming response.",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }},
-            {
-            "name": "markdown",
-            "in": "query",
-            "description": "Flag to return briefing in markdown. If false, then returns plain text.",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }},
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": true,
-            "description": "Signed API key for authentication",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+          ],
         "responses": {
           "200": {
             "description": "Successful response",
