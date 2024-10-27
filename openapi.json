@@ -3,7 +3,7 @@
   "info": {
     "title": "Notamify API",
     "version": "1.0.0",
-    "description": "API for fetching NOTAMs (with AI interpretation) and generating briefings"
+    "description": "API for fetching NOTAMs (with AI interpretation) and generating briefings. The endpoints work only for the current and future (already issued) NOTAMs."
   },
   "servers": [
     {
@@ -14,7 +14,7 @@
     "/api/get-notams": {
       "get": {
         "summary": "Fetch NOTAMs with AI interpretation",
-        "description": "Fetches NOTAMs for the given locations and date range",
+        "description": "Fetches NOTAMs for the given locations and date range. Works for the current and future (already issued) NOTAMs.",
         "parameters": [
           {
             "name": "locations",
@@ -141,7 +141,7 @@
     "/api/get-briefing": {
       "get": {
         "summary": "Generate a briefing",
-        "description": "Generates a briefing for the given locations, date range, and role",
+        "description": "Generates a briefing for the given locations, date range, and role. Works for the current and future (already issued) NOTAMs.",
           "parameters": [
             {
               "name": "locations",
