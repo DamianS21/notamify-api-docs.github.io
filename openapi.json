@@ -176,7 +176,7 @@
             {
               "name": "role",
               "in": "query",
-              "description": "Role for which the briefing is generated. Accepted are: `flight dispatcher, dispatcher, pilot, atc, air traffic controller`.",
+              "description": "Role for which the briefing is generated.",
               "schema": {
                 "type": "string",
                 "enum": ["flight dispatcher", "dispatcher", "pilot", "atc", "air traffic controller"],
