@@ -179,6 +179,7 @@
               "description": "Role for which the briefing is generated",
               "schema": {
                 "type": "string",
+                "enum": ["flight dispatcher", "dispatcher", "pilot", "atc", "air traffic controller"],
                 "default": "flight dispatcher"
               }
             },
@@ -188,7 +189,7 @@
               "description": "Flag to perform a dry run without generating the briefing",
               "schema": {
                 "type": "boolean",
-                "default": false
+                "default": false,
               }
             },
             {
