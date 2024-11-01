@@ -96,6 +96,7 @@
                         "ai_category": "Airport maintenance",
                         "ai_interpretation": "Taxiway N6 is closed daily from 2030 to 0500.",
                         "ai_interpretation_role": "Pilot",
+                        "ai_main_category": "AERODROME",
                         "ai_short_interpretation": "Taxiway N6 closed.",
                         "ai_timing": "Daily from 2030 to 0500.",
                         "all": "A5496/24 NOTAMN\nQ) EDGG/QMXLC/IV/BO /A /000/999/5002N00834E005\nA) EDDF B) 2410212030 C) 2410260500\nD) DAILY 2030-0500\nE) TWY N6 CLSD.",
@@ -312,6 +313,10 @@
           "ai_interpretation_role": {
             "type": "string"
           },
+          "ai_main_category": {
+            "type": "string",
+            "nullable": true
+          },
           "ai_short_interpretation": {
             "type": "string"
           },
@@ -361,6 +366,7 @@
           "ai_category": "Airport maintenance",
           "ai_interpretation": "Taxiway N6 is closed daily from 2030 to 0500.",
           "ai_interpretation_role": "Pilot",
+          "ai_main_category": "AERODROME",
           "ai_short_interpretation": "Taxiway N6 closed.",
           "ai_timing": "Daily from 2030 to 0500.",
           "all": "A5496/24 NOTAMN\nQ) EDGG/QMXLC/IV/BO /A /000/999/5002N00834E005\nA) EDDF B) 2410212030 C) 2410260500\nD) DAILY 2030-0500\nE) TWY N6 CLSD.",
