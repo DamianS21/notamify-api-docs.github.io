@@ -14,7 +14,7 @@
     "/api/get-notams": {
       "get": {
         "summary": "Fetch NOTAMs with AI interpretation",
-        "description": "Fetches NOTAMs for the given locations and date range. Works for the current and future (already issued) NOTAMs.",
+        "description": "Fetches NOTAMs for the given locations and date or datetime range. Works for the current and future (already issued) NOTAMs.",
         "parameters": [
           {
             "name": "locations",
@@ -31,7 +31,7 @@
           {
             "name": "start_date",
             "in": "query",
-            "description": "Start date (YYYY-MM-DD) [UTC]",
+            "description": "Start date (YYYY-MM-DD) [UTC] or Start datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
             "schema": {
               "type": "string",
               "format": "date"
@@ -40,7 +40,7 @@
           {
             "name": "end_date",
             "in": "query",
-            "description": "End date (YYYY-MM-DD) [UTC]",
+            "description": "End date (YYYY-MM-DD) [UTC] or End datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
             "schema": {
               "type": "string",
               "format": "date"
@@ -101,6 +101,7 @@
                         "ai_timing": "Daily from 2030 to 0500.",
                         "all": "A5496/24 NOTAMN\nQ) EDGG/QMXLC/IV/BO /A /000/999/5002N00834E005\nA) EDDF B) 2410212030 C) 2410260500\nD) DAILY 2030-0500\nE) TWY N6 CLSD.",
                         "enddate": "2024-10-26T05:00:00",
+                        "has_active_range": true,
                         "icao": "EDDF",
                         "key": "EDDF_A5496/24",
                         "location": "EDDF",
@@ -159,7 +160,7 @@
             {
               "name": "start_date",
               "in": "query",
-              "description": "Start date (YYYY-MM-DD) [UTC]",
+              "description": "Start date (YYYY-MM-DD) [UTC] or Start datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
               "schema": {
                 "type": "string",
                 "format": "date"
@@ -168,7 +169,7 @@
             {
               "name": "end_date",
               "in": "query",
-              "description": "End date (YYYY-MM-DD) [UTC]",
+              "description": "End date (YYYY-MM-DD) [UTC] or End datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
               "schema": {
                 "type": "string",
                 "format": "date"
@@ -331,6 +332,10 @@
             "type": "string",
             "format": "date-time"
           },
+          "has_active_range": {
+            "type": "boolean",
+            "description": "Indicates if the NOTAM's D) section time period (active range) overlaps with the queried date range. True if the NOTAM is active during the selected query period, false otherwise. True if NOTAM doesn't have D) section."
+          },
           "icao": {
             "type": "string"
           },
@@ -371,6 +376,7 @@
           "ai_timing": "Daily from 2030 to 0500.",
           "all": "A5496/24 NOTAMN\nQ) EDGG/QMXLC/IV/BO /A /000/999/5002N00834E005\nA) EDDF B) 2410212030 C) 2410260500\nD) DAILY 2030-0500\nE) TWY N6 CLSD.",
           "enddate": "2024-10-26T05:00:00",
+          "has_active_range": true,
           "icao": "EDDF",
           "key": "EDDF_A5496/24",
           "location": "EDDF",
