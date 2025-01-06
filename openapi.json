@@ -20,7 +20,7 @@
             "name": "locations",
             "in": "query",
             "required": true,
-            "description": "Comma-separated list of ICAO codes. Up to 10 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
+            "description": "Comma-separated list of ICAO codes. Up to 5 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
             "schema": {
               "type": "array",
               "items": {
@@ -149,7 +149,7 @@
               "name": "locations",
               "in": "query",
               "required": true,
-              "description": "Comma-separated list of ICAO codes. Up to 10 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
+              "description": "Comma-separated list of ICAO codes. Up to 5 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
               "schema": {
                 "type": "array",
                 "items": {
