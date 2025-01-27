@@ -144,102 +144,108 @@
       "get": {
         "summary": "Generate a briefing",
         "description": "Generates a briefing for the given locations, date range, and role. Works for the current and future (already issued) NOTAMs.",
-          "parameters": [
-            {
-              "name": "locations",
-              "in": "query",
-              "required": true,
-              "description": "Comma-separated list of ICAO codes. Up to 5 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "start_date",
-              "in": "query",
-              "description": "Start date (YYYY-MM-DD) [UTC] or Start datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
-              "schema": {
-                "type": "string",
-                "format": "date"
-              }
-            },
-            {
-              "name": "end_date",
-              "in": "query",
-              "description": "End date (YYYY-MM-DD) [UTC] or End datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
-              "schema": {
-                "type": "string",
-                "format": "date"
-              }
-            },
-            {
-              "name": "role",
-              "in": "query",
-              "description": "Role for which the briefing is generated.",
-              "schema": {
-                "type": "string",
-                "enum": ["flight dispatcher", "dispatcher", "pilot", "atc", "air traffic controller"],
-                "default": "flight dispatcher"
-              }
-            },
-            {
-              "name": "dry_run",
-              "in": "query",
-              "description": "Flag to perform a dry run without generating the briefing",
-              "schema": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            {
-              "name": "always_include_est",
-              "in": "query",
-              "description": "Flag to always include estimated NOTAMs into the briefing",
-              "schema": {
-                "type": "boolean",
-                "default": true
-              }
-            },
-            {
-              "name": "detailed_briefing",
-              "in": "query",
-              "description": "Flag to generated detailed briefing. The flag set to 'false' generate shorter briefings",
-              "schema": {
-                "type": "boolean",
-                "default": true
-              }
-            },
-            {
-              "name": "stream",
-              "in": "query",
-              "description": "Flag to return streaming response.",
-              "schema": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            {
-              "name": "markdown",
-              "in": "query",
-              "description": "Flag to return briefing in markdown. If false, then returns plain text.",
-              "schema": {
-                "type": "boolean",
-                "default": true
-              }
-            },
-            {
-              "name": "X-API-Key",
-              "in": "header",
-              "required": true,
-              "description": "Signed API key for authentication",
-              "schema": {
+        "parameters": [
+          {
+            "name": "locations",
+            "in": "query",
+            "required": true,
+            "description": "Comma-separated list of ICAO codes. Up to 5 ICAO codes. Example: `EPWA,EDDM,EPPO` ",
+            "schema": {
+              "type": "array",
+              "items": {
                 "type": "string"
               }
             }
-          ],
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Start date (YYYY-MM-DD) [UTC] or Start datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "End date (YYYY-MM-DD) [UTC] or End datetime (YYYY-MM-DDTHH:MM:SS) [UTC]",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "Role for which the briefing is generated.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "flight dispatcher",
+                "dispatcher",
+                "pilot",
+                "atc",
+                "air traffic controller"
+              ],
+              "default": "flight dispatcher"
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "description": "Flag to perform a dry run without generating the briefing",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "always_include_est",
+            "in": "query",
+            "description": "Flag to always include estimated NOTAMs into the briefing",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "detailed_briefing",
+            "in": "query",
+            "description": "Flag to generated detailed briefing. The flag set to 'false' generate shorter briefings",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "stream",
+            "in": "query",
+            "description": "Flag to return streaming response.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "markdown",
+            "in": "query",
+            "description": "Flag to return briefing in markdown. If false, then returns plain text.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": true,
+            "description": "Signed API key for authentication",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -247,12 +253,22 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Briefing"
-                },
+              },
                 "examples": {
                   "example-1": {
                     "summary": "A briefing example",
                     "value": {
-                      "summary": "Briefing summary for the given locations and date range"
+                      "notam_ids": {
+                        "EDDF": [
+                          "U0038/11",
+                          "A3170/22"
+                        ],
+                        "EPWA": [
+                          "A3059/24",
+                          "A3189/24"
+                        ]
+                      },
+                      "summary": "Briefing summary for the given locations and date range."
                     }
                   }
                 }
@@ -391,12 +407,32 @@
       "Briefing": {
         "type": "object",
         "properties": {
+          "notam_ids": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
           "summary": {
             "type": "string"
           }
         },
         "example": {
-          "summary": "Briefing summary for the given locations and date range"
+          "notam_ids": {
+            "EDDF": [
+              "U0038/11",
+              "A3170/22",
+              "A1169/24"
+            ],
+            "EPWA": [
+              "A3059/24",
+              "A3189/24"
+            ]
+          },
+          "summary": "Briefing summary for the given locations and date range."
         }
       }
     }
